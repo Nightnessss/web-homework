@@ -1,4 +1,4 @@
-package com.demo;
+package com.fehead;
 
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
