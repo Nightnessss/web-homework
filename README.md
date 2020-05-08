@@ -10,3 +10,4 @@
 ## 细节说明
 1. `homework01`中`input.html`的实际链接与文档中的图片有所区别，为`/homework01/html/input.html`。
 2. `homework02`中`counter.jsp`中比作业要求多加了一个显示当前时间的功能。
+3. `homework03`中的第一个问题愣是没整明白，有明白的同学请留言。
