@@ -19,7 +19,14 @@
         <servlet-name>SecondServlet</servlet-name>
         <url-pattern>/secondServlet</url-pattern>
     </servlet-mapping>
-    
+    <context-param>
+        <param-name>email</param-name>
+        <param-value>hacker@163.com</param-value>
+    </context-param>
+    <context-param>
+        <param-name>telephone</param-name>
+        <param-value>8899123</param-value>
+    </context-param>
     <welcome-file-list>
         <welcome-file>/html/input.html</welcome-file>
     </welcome-file-list>

@@ -1,5 +1,6 @@
 package com.fehead;
 
+import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,12 +12,7 @@ import java.io.PrintWriter;
 /**
  * @author Nightnessss 2020/5/5 9:57
  */
-@WebServlet(name = "ConfigDemoServlet",
-            urlPatterns = { "/configDemo.do" },
-            initParams = {
-                    @WebInitParam(name = "email", value = "hacker@163.com"),
-                    @WebInitParam(name = "telephone", value = "8899123")
-            })
+@WebServlet(name = "ConfigDemoServlet", urlPatterns = { "/configDemo.do" })
 public class ConfigDemoServlet extends HttpServlet {
 
     @Override
@@ -26,8 +22,8 @@ public class ConfigDemoServlet extends HttpServlet {
         // 输出文本
         PrintWriter out = response.getWriter();
         out.write("<p>Servlet名称：" + this.getServletName() + "</p>");
-        out.write("<p>Email地址：" + this.getInitParameter("email") + "</p>");
-        out.write("<p>电话：" + this.getInitParameter("telephone") + "</p>");
+        out.write("<p>Email地址：" + this.getServletContext().getInitParameter("email") + "</p>");
+        out.write("<p>电话：" + this.getServletContext().getInitParameter("telephone") + "</p>");
 
     }
 }
