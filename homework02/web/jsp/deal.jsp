@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.HashMap" %><%--
   Created by IntelliJ IDEA.
   User: 19487
   Date: 2020/5/8
@@ -7,9 +7,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    HashMap<String, String> users = new HashMap<>();
+    users.put("admin", "123456");
+    users.put("yanbo", "yanbonb");
+    users.put("figwei", "tencent");
     String username = request.getParameter("username");
     String password = request.getParameter("password");
-    if (username.equals("admin") && password.equals("123456")) {
+    if (password.equals(users.get(username))) {
         session.setAttribute("username", username);
         response.sendRedirect("main.jsp");
     } else {
