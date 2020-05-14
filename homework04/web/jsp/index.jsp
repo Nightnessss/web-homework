@@ -20,16 +20,17 @@
     <c:forEach items="${products}" var="product" varStatus="status">
         <form method="post" action="/homework04/addToCart">
             <tr>
-                <td><input name="id" value="${product.id}"/></td>
+<%--                <td name="id">${product.id}</td>--%>
+                <td><input name="id" type="text" readonly="readonly" value="${product.id}" /></td>
                 <td>${product.name}</td>
                     <%--            <td>${product.brand}</td>--%>
                 <td>${product.price}</td>
                     <%--            <td>${product.stock}</td>--%>
-                <td><input type="submit" value="+" /></td>
+                <td><input type="submit" value="+" /><a href="http://localhost:8080/homework04/showProduct?id=${product.id}" >详情</a></td>
             </tr>
         </form>
     </c:forEach>
 </table>
-<p><a href="homework04/showCart">前往购物车</a></p>
+<p><a href="showCart">前往购物车</a></p>
 </body>
 </html>

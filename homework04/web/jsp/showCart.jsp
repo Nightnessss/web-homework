@@ -2,6 +2,7 @@
   @author Nightessss 2020/5/12 16:14
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>showCart</title>
@@ -17,9 +18,9 @@
             <td>加入购物车</td>
         </tr>
         <c:forEach items="${products}" var="product" varStatus="status">
-            <form method="post" action="/deleteItem">
+            <form method="get" action="deleteItem">
                 <tr>
-                    <td>${product.id}</td>
+                    <td><input name="id" type="text" readonly="readonly" value="${product.id}" /></td>
                     <td>${product.name}</td>
                         <%--            <td>${product.brand}</td>--%>
                     <td>${product.price}</td>
@@ -29,5 +30,6 @@
             </form>
         </c:forEach>
     </table>
+    <a href="http://localhost:8080/homework04/showIndex">返回首页</a>
 </body>
 </html>

@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author Nightessss 2020/5/12 16:15
  */
-@WebServlet(name = "controllerServlet", urlPatterns = {"/showProduct", "/deleteItem", "/addToCart", "/showCart"})
+@WebServlet(name = "controllerServlet", urlPatterns = {"/showProduct", "/deleteItem", "/addToCart", "/showCart", "/showIndex"})
 public class ControllerServlet extends HttpServlet {
 
     private final String BASE_URL = "/homework04/";
@@ -26,6 +26,7 @@ public class ControllerServlet extends HttpServlet {
     private final String DELETE_ITEM = BASE_URL + "deleteItem";
     private final String ADD_TO_CART = BASE_URL + "addToCart";
     private final String SHOW_CART = BASE_URL + "showCart";
+    private final String SHOW_INDEX = BASE_URL + "showIndex";
 
     private ProductDao productDao = new ProductDao();
 
@@ -49,6 +50,9 @@ public class ControllerServlet extends HttpServlet {
             case SHOW_CART:
                 showCart(req, resp);
                 break;
+            case SHOW_INDEX:
+                showIndex(req, resp);
+                break;
             default:
                 break;
         }
@@ -59,22 +63,41 @@ public class ControllerServlet extends HttpServlet {
         addToCart(req, resp);
     }
 
-    private void showProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void showIndex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Product> products = new ArrayList<>();
-//        products.add(new Product(1, "发卡", "得力", 10.5, 20));
-//        products.add(new Product(2, "帆布鞋", "匡威", 205.0, 210));
-//        products.add(new Product(3, "玩具熊", "宝宝", 95.5, 52));
         products = productDao.selectProduct();
         request.setAttribute("products", products);
         request.getRequestDispatcher("jsp/index.jsp").forward(request, response);
     }
+
+    private void showProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String id = request.getParameter("id");
+
+        Product product = productDao.selectProductById(Integer.parseInt(id));
+        request.setAttribute("product", product);
+        request.getRequestDispatcher("jsp/showProduct.jsp").forward(request, response);
+    }
     private void showCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<GoodsItem> goodsItems = (List<GoodsItem>) request.getSession().getAttribute("goodsItems");
-        request.setAttribute("goodsItem", goodsItems);
+        request.setAttribute("products", goodsItems);
         request.getRequestDispatcher("jsp/showCart.jsp").forward(request, response);
     }
-    private void deleteItem(HttpServletRequest request, HttpServletResponse response) {
+    private void deleteItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String id = request.getParameter("id");
+        if (id.isEmpty()) {
+            return;
+        }
 
+        Product product = productDao.selectProductById(Integer.parseInt(id));
+        GoodsItem goodsItem = new GoodsItem(product.getId(), product.getName(), product.getPrice());
+        HttpSession session = request.getSession();
+        List<GoodsItem> goodsItems = (List<GoodsItem>) session.getAttribute("goodsItems");
+        if (goodsItems == null) {
+            return;
+        }
+        goodsItems.remove(goodsItem);
+        session.setAttribute("goodsItems", goodsItems);
+        response.sendRedirect("/homework04/showCart");
     }
     private void addToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
@@ -91,6 +114,6 @@ public class ControllerServlet extends HttpServlet {
         }
         goodsItems.add(goodsItem);
         session.setAttribute("goodsItems", goodsItems);
-        request.getRequestDispatcher("/jsp/index.jsp").forward(request, response);
+        response.sendRedirect("/homework04/showIndex");
     }
 }
